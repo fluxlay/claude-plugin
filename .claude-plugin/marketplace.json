@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "fluxlay",
+  "description": "Official Claude Code plugins from Fluxlay",
+  "owner": {
+    "name": "Fluxlay",
+    "url": "https://fluxlay.com"
+  },
+  "plugins": [
+    {
+      "name": "fluxlay",
+      "source": "./",
+      "description": "Build Fluxlay wallpapers from Claude Code: scaffold, SDK knowledge, and CSP guidance"
+    }
+  ]
+}
