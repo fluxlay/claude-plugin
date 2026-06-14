@@ -64,7 +64,7 @@ source: ./video.mp4         # ONLY for kind: video / image
 ```
 
 **Schema gotchas** (these break validation):
-- `network:` is a list of `{origin, reason}` **objects**, not bare URL strings. `reason` must be non-empty. Allowed schemes: `https`, `http`, `wss`, `ws`. Origin = scheme + host[:port] only — no path, query, fragment, wildcard, or trailing slash.
+- `network:` is a list of `{origin, reason}` **objects**, not bare URL strings. `reason` must be non-empty. Allowed schemes: `https` and `wss` only (encrypted) — plain `http` / `ws` are rejected. Origin = scheme + host[:port] only — no path, query, fragment, wildcard, or trailing slash.
 - `shell:` is a **map** keyed by command id. Each entry needs `run` and `required` (use `[]` for none); `reason` is optional.
 - Every entry under `properties:` requires both `type:` and `label:`.
 - The legacy `type: string` was removed — use `text` (free input) or `select` (enum) instead. Validator emits a migration error.
