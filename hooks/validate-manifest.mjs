@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // PostToolUse hook: validates fluxlay.yaml after Edit/Write/MultiEdit.
-// Surfaces shallow schema errors (kind / slug / version / source extension)
+// Surfaces shallow schema errors (kind / slug / source extension)
 // directly back to Claude so it can fix them in the same turn.
 //
 // On valid manifest: exit 0 silently.

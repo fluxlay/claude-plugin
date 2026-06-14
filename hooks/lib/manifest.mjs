@@ -1,5 +1,5 @@
 // Minimal YAML reader for the small subset of fluxlay.yaml we care about:
-// top-level scalar keys (schemaVersion, name, slug, version, kind, source).
+// top-level scalar keys (schemaVersion, name, slug, kind, source).
 // Anything more complex (lists, nested maps) is intentionally ignored — the
 // CLI's native validator is canonical; this hook is just a fast feedback loop.
 
@@ -35,11 +35,8 @@ export function validateManifest(scalars) {
   } else if (!/^[a-z0-9][a-z0-9-]*$/.test(scalars.slug)) {
     errors.push(`slug must match /^[a-z0-9][a-z0-9-]*$/ (got ${JSON.stringify(scalars.slug)})`);
   }
-  if (!scalars.version) {
-    errors.push("version is required");
-  } else if (!/^\d+\.\d+\.\d+/.test(scalars.version)) {
-    errors.push(`version must be SemVer (got ${JSON.stringify(scalars.version)})`);
-  }
+  // version は任意。リビジョンは publish 時にサーバーが自動採番するため、
+  // 記述されても無視される（後方互換でフィールド自体は許容）。検証しない。
   if (!scalars.kind) {
     errors.push("kind is required (one of: web, video, image)");
   } else if (!KIND_VALUES.has(scalars.kind)) {

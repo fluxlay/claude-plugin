@@ -34,13 +34,13 @@ For a brand-new project, run `/fluxlay:new` to scaffold the minimum template (it
 
 ## 2. `fluxlay.yaml` manifest
 
-Top-level keys (the canonical 11): `schemaVersion`, `name`, `slug`, `version`, `kind`, `description`, `permissions`, `network`, `shell`, `properties`, `source`. Anything else (`icon`, `tags`, `author`, `license`, `homepage`, etc.) does **not exist** — don't invent fields.
+Top-level keys (the canonical 11): `schemaVersion`, `name`, `slug`, `version`, `kind`, `description`, `permissions`, `network`, `shell`, `properties`, `source`. `version` is **optional and ignored** — the store auto-assigns a revision on every publish, so it's kept only for backward compatibility (don't rely on it). Anything else (`icon`, `tags`, `author`, `license`, `homepage`, etc.) does **not exist** — don't invent fields.
 
 ```yaml
 schemaVersion: 1            # currently only 1
 name: My Wallpaper          # display name
 slug: my-wallpaper          # unique URL-safe id (lowercase, digits, hyphens)
-version: 0.1.0              # SemVer
+version: 0.1.0              # optional, ignored (store auto-assigns the revision)
 kind: web                   # web | video | image (defaults to web if omitted, but build/publish require it explicitly)
 description: |              # store listing
   ...
@@ -96,7 +96,6 @@ For `kind: video` / `kind: image` the Vite build is skipped and the file at `sou
 schemaVersion: 1
 name: My Video Wallpaper
 slug: my-video-wp
-version: 0.1.0
 kind: video
 source: ./background.mp4
 ```
@@ -185,7 +184,7 @@ When the user asks for `dev`, `build`, or `publish` in Claude Code, run the corr
 Before running the `publish` script, confirm with the user:
 
 - For `kind: web`: they ran the `build` script and visually verified the wallpaper still renders correctly in the desktop app under production CSP (dev mode is looser).
-- `version` in `fluxlay.yaml` is higher than the previously published version (re-publishing the same version is rejected).
+- Each publish creates a **new server-assigned revision** — there's no `version` to bump, and re-publishing is always accepted (it ships a new revision).
 - `slug` is final (renaming after publish creates a separate store listing).
 - `kind` is final (changing it is a breaking change for existing users).
 - `fluxlay whoami` succeeds.
@@ -209,7 +208,7 @@ The plugin also installs a `PreToolUse` hook that runs the same checks automatic
 - [ ] Using `eval`-based libraries / runtime template engines → works in dev, breaks after build/publish.
 - [ ] Using `<a target="_blank">` or `window.open(url)` for an external URL → silently fails. Use `openUrl(url)`.
 - [ ] Using regular `fetch` for a non-CORS origin (even when declared under `network:`) → blocked by browser CORS. Use `proxiedFetch`.
-- [ ] Publishing without bumping `version` → server rejects the upload.
+- [ ] Treating `version` as meaningful (bumping it to release, expecting re-publish to be rejected) → it's ignored; the store auto-assigns a revision on every publish.
 - [ ] Renaming `slug` after publishing → store treats it as a different app.
 - [ ] Writing `network:` as `["https://..."]` instead of `[{origin: "...", reason: "..."}]` → manifest invalid.
 - [ ] Defining a `properties:` entry without `label:` → manifest invalid.

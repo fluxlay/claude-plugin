@@ -1,7 +1,6 @@
 schemaVersion: 1
 name: __NAME__
 slug: __SLUG__
-version: 0.1.0
 kind: web
 description: |
   A Fluxlay wallpaper.

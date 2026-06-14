@@ -137,7 +137,7 @@ try {
 
   // Manifest summary.
   findings.push(
-    `Manifest: name="${scalars.name}", slug="${scalars.slug}", version=${scalars.version}, kind=${scalars.kind}`
+    `Manifest: name="${scalars.name}", slug="${scalars.slug}", kind=${scalars.kind}`
   );
 
   if (blockers.length > 0) {
@@ -150,13 +150,13 @@ try {
   decision(
     "ask",
     [
-      "About to publish a Fluxlay wallpaper. This is public and the version is permanent.",
+      "About to publish a Fluxlay wallpaper. This is public.",
       "",
       "Pre-flight summary:",
       ...findings.map(f => `  - ${f}`),
       "",
       "Reminders:",
-      "  - Republishing the same version is rejected — bump `version` if needed",
+      "  - Each publish creates a new server-assigned revision (no `version` to bump)",
       "  - Renaming `slug` after publish creates a separate store listing",
       "",
       `Command: ${cmd}`
